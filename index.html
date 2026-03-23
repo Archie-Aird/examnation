@@ -1,41 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <title>
-            Examnation Session
-        </title>
-        <script>
-            function start() {
-                document.getElementById("header").style.display = "none"
-                document.getElementById("exam").style.display = "inline"
-                document.getElementById("exam").requestFullscreen()
+<head>
+    <title>Examination Session</title>
+    <script>
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                lock()
             }
-            function end() {
-                document.getElementById("header").style.display = "inline"
-                document.getElementById("exam").style.display = "none"
-                document.exitFullscreen().catch(() => {})
+        })
+        window.addEventListener("blur", () => {
+            lock()
+        })
+        document.addEventListener("fullscreenchange", () => {
+            if (!document.fullscreenElement) {
+                lock()
             }
-            function lock() {
-                end()
+        })
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("start").addEventListener("click", start)
+
+            document.getElementById("unlockform").addEventListener("submit", (e) => {
+                e.preventDefault()
+                if (document.getElementById("lockreason").value.length < 3) {
+                    alert("Reason is not long enough.")
+                } else {
+                    unlock()
+                }
+            })
+        })
+
+        function start() {
+            document.getElementById("header").style.display = "none"
+            document.getElementById("exam").style.display = "block"
+            document.getElementById("exam").requestFullscreen().catch(err => {
+                console.log("Error attempting to enable full-screen mode")
+            })
+        }
+
+        function end() {
+            document.getElementById("header").style.display = "block"
+            document.getElementById("exam").style.display = "none"
+            if (document.fullscreenElement) {
+                document.exitFullscreen()
             }
-            function unlock() {
-                start()
-            }
-        </script>
-    </head>
-    <body>
-        <div id="header">
-            <h1>Welcome to Examnation</h1>
-            <button id="start">Start your exam</button>
-        </div>
-        <div id="exam">
-            <textarea style="width: 100%; height: 100%;"></textarea>
-        </div>
-        <div id="lock">
-            <h1>Your exam has been locked.</h1>
-            <form>
-                <input id="lockreason">
-            </form>
-        </div>
-    </body>
+        }
+        function submit() {
+            
+        }
+        function lock() {
+            end()
+            document.getElementById('lock').style.display = 'inline'
+            document.getElementById('exam').style.display = "none"
+            document.getElementById('header').style.display = 'none'
+        }
+
+        function unlock() {
+            start()
+        }
+    </script>
+</head>
+<body>
+    <div id="header">
+        <h1>Welcome to Examination</h1>
+        <button id="start">Start your exam</button>
+    </div>
+
+    <div id="exam" style="display:none;">
+        <textarea style="width: 100%; height: 100%;"></textarea>
+        <br>
+        <button onclick="end()">Finish Exam</button>
+    </div>
+
+    <div id="lock" style="display: none;">
+        <h1>Exam has been locked</h1>
+        <form id="unlockform">
+            <input id="lockreason" placeholder="Enter a reason to unlock.">
+            <input type="submit" value="Unlock">
+        </form>
+    </div>
+</body>
 </html>
