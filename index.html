@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Examnation Session
+        </title>
+        <script>
+            function start() {
+                document.getElementById("header").style.display = "none"
+                document.getElementById("exam").style.display = "inline"
+                document.getElementById("exam").requestFullscreen()
+            }
+            function end() {
+                document.getElementById("header").style.display = "inline"
+                document.getElementById("exam").style.display = "none"
+                document.exitFullscreen().catch(() => {})
+            }
+            function lock() {
+                end()
+            }
+            function unlock() {
+                start()
+            }
+        </script>
+    </head>
+    <body>
+        <div id="header">
+            <h1>Welcome to Examnation</h1>
+            <button id="start">Start your exam</button>
+        </div>
+        <div id="exam">
+            <textarea style="width: 100%; height: 100%;"></textarea>
+        </div>
+        <div id="lock">
+            <h1>Your exam has been locked.</h1>
+            <form>
+                <input id="lockreason">
+            </form>
+        </div>
+    </body>
+</html>
