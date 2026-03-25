@@ -38,13 +38,14 @@
             document.getElementById("exam").requestFullscreen().catch(err => {
                 console.log("Error attempting to enable full-screen mode")
             })
-            ws.send("exit")
+    
         }
 
         function end() {
             document.getElementById("header").style.display = "block"
             document.getElementById("exam").style.display = "none"
-            document.exitFullscreen().then(() => {console.log("Exited fs")}).catch((err) => {console.log("an error occured exiting fs!")})
+            document.exitFullscreen().then(() => {console.log("Exited fs")}).catch((err) => {})
+            ws.send("exited")
         }
         function submit() {
             
