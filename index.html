@@ -3,6 +3,9 @@
 <head>
     <title>Examination Session</title>
     <script>
+        WS_URL = "https://examsock.onrender.com/ws"; // !! Change Me !!
+        ws = new WebSocket(WS_URL)
+
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 lock()
@@ -40,9 +43,7 @@
         function end() {
             document.getElementById("header").style.display = "block"
             document.getElementById("exam").style.display = "none"
-            if (document.fullscreenElement) {
-                document.exitFullscreen()
-            }
+            document.exitFullscreen().then(() => {console.log("Exited fs")}).catch((err) => {console.log("an error occured exiting fs!")})
         }
         function submit() {
             
