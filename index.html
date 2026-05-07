@@ -5,7 +5,11 @@
     <script>
         WS_URL = "https://examsock.onrender.com/ws"; // !! Change Me !!
         ws = new WebSocket(WS_URL)
+        
+        while (ws.readyState != 1) {} //allow connection
 
+        document.getElementById("loadingws").style.display = "none";
+        document.getElementById("header").style.display = "inline";
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 lock()
@@ -63,7 +67,7 @@
     </script>
 </head>
 <body>
-    <div id="header">
+    <div id="header" style="display: none;">
         <h1>Welcome to Examination</h1>
         <button id="start">Start your exam</button>
     </div>
@@ -73,7 +77,9 @@
         <br>
         <button onclick="end()">Finish Exam</button>
     </div>
-
+    <div id="loadingws">
+        <h1>Connecting...</h1>
+    </div>
     <div id="lock" style="display: none;">
         <h1>Exam has been locked</h1>
         <form id="unlockform">
