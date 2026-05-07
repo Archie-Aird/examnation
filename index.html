@@ -4,12 +4,13 @@
     <title>Examination Session</title>
     <script>
         WS_URL = "https://examsock.onrender.com/ws"; // !! Change Me !!
-        ws = new WebSocket(WS_URL)
-        
-        while (ws.readyState != 1) {} //allow connection
+        ws = new WebSocket(WS_URL)        
+        // 3. Update UI when connection is established
+        ws.onopen = (event) => {
+            document.getElementById("loadingws").style.display = "none";
+            document.getElementById("header").style.display = "inline";
+        };
 
-        document.getElementById("loadingws").style.display = "none";
-        document.getElementById("header").style.display = "inline";
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) {
                 lock()
